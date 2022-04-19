@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +46,12 @@ public class CategoriaResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 //		return ResponseEntity.created(uri).body(obj);  // Retorna o novo objeto Categoria e a URI de acesso.
 		return ResponseEntity.created(uri).build();  // Retorna apenas a URI de acesso. 
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO obj) {
+		Categoria newObj = categoriaService.update(id, obj);
+		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
 	}
 	
 }
