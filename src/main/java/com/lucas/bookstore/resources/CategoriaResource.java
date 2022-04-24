@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,7 @@ import com.lucas.bookstore.domain.Categoria;
 import com.lucas.bookstore.dtos.CategoriaDTO;
 import com.lucas.bookstore.services.CategoriaService;
 
+@CrossOrigin("*")  // Aceita requisição de qualquer porta. O Angular utiliza 4200 e o Spring 8080.
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
@@ -42,7 +46,7 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> create(@RequestBody Categoria obj) {
+	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria obj) {
 		obj = categoriaService.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 //		return ResponseEntity.created(uri).body(obj);  // Retorna o novo objeto Categoria e a URI de acesso.
@@ -50,7 +54,7 @@ public class CategoriaResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO obj) {
+	public ResponseEntity<CategoriaDTO> update(@Valid @PathVariable Integer id, @RequestBody CategoriaDTO obj) {
 		Categoria newObj = categoriaService.update(id, obj);
 		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
 	}
