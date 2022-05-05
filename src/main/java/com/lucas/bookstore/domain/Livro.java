@@ -33,7 +33,7 @@ public class Livro implements  Serializable{
 	private String nome_autor;
 	
 	@NotEmpty(message = "O campo TEXTO é obrigatório.")
-	@Length(min = 10, max = 1000, message = "O campo TEXTO deve ter entre 10 e 1000 caracteres.")
+	@Length(min = 10, max = 1600, message = "O campo TEXTO deve ter entre 10 e 1000 caracteres.")
 	private String texto;
 
 	@JsonIgnore  // Elimina o loop de chamadas no relacionamento
